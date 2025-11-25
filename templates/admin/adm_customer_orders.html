@@ -1,0 +1,60 @@
+{% extends 'admin/admin_dashboard.html' %}
+{% block content %}
+
+<div class="card shadow-sm rounded">
+  <!-- <div class="card-header">
+    <h2>Customers Overview</h2>
+  </div> -->
+  <div class="card-body">
+    <h3 class="mb-4 fw-bold">Customer Orders</h3>
+
+    <!-- Search and Filter Section -->
+    <!-- <div class="d-flex justify-content-between mb-4">
+      <div class="d-flex w-50 gap-2">
+        <input type="text" class="form-control rounded-4" placeholder="Search by email or name" id="searchField">
+        <button class="btn btn-primary rounded-4 px-5">Search</button>
+      </div>
+      <div class="dropdown">
+        <button class="btn rounded-4 px-3 btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Filter by Status
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+          <li><a class="dropdown-item" href="#">All</a></li>
+          <li><a class="dropdown-item" href="#">Pending</a></li>
+          <li><a class="dropdown-item" href="#">Completed</a></li>
+          <li><a class="dropdown-item" href="#">Shipped</a></li>
+        </ul>
+      </div>
+    </div> -->
+
+    <!-- Table with customer data -->
+    <div class="table-responsive shadow rounded">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Customer Name</th>
+            <th>Customer Email</th>
+            <th>Ordered Product</th>
+            <th>Quantity</th>
+            <th>Payment Status</th>
+            <th>Delivery Status</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for i in cart %}
+            <tr>
+                <td>{{i.customer.first_name}} {{i.customer.last_name}}</td>
+                <td>{{i.customer.email}}</td>
+                <td>{{i.products.product_name}}</td>
+                <td>{{i.quantity}}</td>
+                <td>{{i.status}}</td>
+                <td>{{i.Normal_status}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

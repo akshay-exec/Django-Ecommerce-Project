@@ -1,0 +1,71 @@
+{% extends 'admin/admin_dashboard.html' %}
+{% block content %}
+
+<div class="card shadow-sm rounded">
+  <!-- <div class="card-header">
+    <h2>Customers Overview</h2>
+  </div> -->
+  <div class="card-body">
+    <h3 class="mb-4 fw-bold">Seller</h3>
+
+    <!-- Search and Filter Section -->
+    <!-- <form class="d-flex justify-content-between mb-4">
+      <div class="d-flex w-50 gap-2">
+        <input type="text" class="form-control rounded-4" placeholder="Search by email or name" id="searchField">
+        <button class="btn btn-primary rounded-4 px-5">Search</button>
+      </div>
+      <div class="dropdown">
+        <button class="btn rounded-4 px-3 btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Filter by Status
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+          <li><button class="dropdown-item" name="status" value="">All</button></li>
+          <li><button class="dropdown-item" name="status" value="Active">Active</button></li>
+          <li><button class="dropdown-item" name="status" value="Pending">Pending</button></li>
+        </ul>
+      </div>
+    </form> -->
+
+    <!-- Table with customer data -->
+    <div class="table-responsive shadow rounded">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>ID Number</th>
+            <th>Date joined</th>
+            <th>Active Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in sel %}
+          <tr>
+            <td>{{i.first_name}} {{i.last_name}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.id_number}}</td>
+            <td>{{i.date_joined}}</td>
+            {% if i.is_active %}
+            <td>Active</td>
+            {% else %}
+            <td>Pending</td>
+            {% endif %}
+            {% if not i.is_active %}
+            <td class="text-center">
+              <a href="{% url 'adm_seller_reg_approve' %}?id={{i.id}}" class="btn btn-sm rounded-pill px-3 btn-primary">Approve</a>
+            </td>
+            {% else %}
+            <td class="text-center">
+              <a href="{% url 'adm_delete_seller' %}?id={{i.id}}" class="btn btn-sm rounded-pill px-3 btn-danger">Remove</a>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

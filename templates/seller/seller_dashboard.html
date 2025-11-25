@@ -1,0 +1,209 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-5">
+      <div class="container">
+
+        <!-- Logo / Brand -->
+        <a class="navbar-brand fw-bold fs-4" href="{% url 'seller_dashboard' %}">🛒 SellerPortal</a>
+
+        <!-- Hamburger Menu for Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSellerContent"
+          aria-controls="navbarSellerContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarSellerContent">
+
+          <!-- Left-aligned Links -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'seller_dashboard' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'seller_profile' %}">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'seller_view_products' %}">View Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'seller_add_products' %}">Add Products</a>
+            </li>
+          </ul>
+
+          <!-- Right-aligned Logout -->
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link text-danger fw-semibold" href="{% url 'index' %}">Logout</a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+    <main class="flex-grow-1">
+      {% block content %}
+      <div class="container-fluid">
+        <div class="row">
+          <!-- Sidebar (Optional, if you want a sidebar with navigation) -->
+          <div class="col-lg-2 col-md-4 col-sm-12 mb-4">
+            <div class="sidebar shadow-sm rounded">
+              <h3>Welcome, {{ sel.first_name }}!</h3>
+              <ul class="nav flex-column">
+                <li class="nav-item"><a href="#" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link active">Customers</a></li>
+                <!-- Add more navigation options as needed -->
+              </ul>
+            </div>
+            <div class="mt-4">
+              <h4>Total Profit:</h4>
+              <h3>₹ {{total}}</h3>
+            </div>
+          </div>
+
+          <!-- Main Content -->
+          <div class="col-lg-10 col-md-8 col-sm-12">
+            <div class="card shadow-sm rounded">
+              <!-- <div class="card-header">
+                <h2>Customers Overview</h2>
+              </div> -->
+              <div class="card-body">
+                <h3 class="mb-4 fw-bold">Customer Orders</h3>
+
+                <!-- Search and Filter Section -->
+                <div class="d-flex justify-content-between mb-4">
+                  <div class="d-flex w-50 gap-2">
+                    <input type="text" class="form-control rounded-4" placeholder="Search by email or name" id="searchField">
+                    <button class="btn btn-primary rounded-4 px-5">Search</button>
+                  </div>
+                  <div class="dropdown">
+                    <button class="btn rounded-4 px-3 btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      Filter by Status
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                      <li><a class="dropdown-item" href="#">All</a></li>
+                      <li><a class="dropdown-item" href="#">Pending</a></li>
+                      <li><a class="dropdown-item" href="#">Completed</a></li>
+                      <li><a class="dropdown-item" href="#">Shipped</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Table with customer data -->
+                <div class="table-responsive shadow rounded">
+                  <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Products</th>
+                        <th>Order QTY</th>
+                        <th>Sys QTY</th>
+                        <th>MRP</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Current Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in cus %}
+                      <tr>
+                        <td>{{ i.customer.first_name }} {{ i.customer.last_name }}</td>
+                        <td>{{ i.customer.email }}</td>
+                        <td>{{ i.products.product_name }}</td>
+                        <td>{{ i.quantity }}</td>
+                        <td>{{ i.products.quantity }}</td>
+                        <td>₹ {{ i.products.price }}</td>
+                        <td>₹ {{ i.price }}</td>
+                        <td>{{ i.status }}</td>
+                        <td>{{ i.Normal_status }}</td>
+                        <!-- <td>
+                          <span class="badge 
+                            {% if i.status == 'Pending' %} badge-warning {% elif i.status == 'Completed' %} badge-success {% elif i.status == 'Shipped' %} badge-info {% else %} badge-secondary {% endif %}
+                          ">{{ i.status }}</span>
+                        </td> -->
+                        <td class="text-center">
+                          <a href="{% url 'seller_deliver_pro' %}?id={{i.id}}" class="btn btn-sm rounded-pill px-3 btn-primary">Deliver</a>
+                        </td>
+                        <!-- <td class="text-center">
+                          <a href="{% url 'seller_delete_from_cart' %}?id={{i.id}}" class="btn btn-sm rounded-pill px-3 btn-danger">Delete</a>
+                        </td> -->
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock %}
+    </main>
+    <footer class="bg-dark text-light pt-5 pb-3 mt-5">
+      <div class="container">
+
+          <div class="row">
+
+              <!-- About / Brand -->
+              <div class="col-md-4 mb-4">
+                  <h5 class="fw-bold">🛍️ MyShop</h5>
+                  <p class="small text-muted">
+                      Your one-stop shop for all your needs. Quality products delivered to your doorstep.
+                  </p>
+              </div>
+
+              <!-- Quick Links -->
+              <div class="col-md-2 mb-4">
+                  <h6 class="fw-bold">Quick Links</h6>
+                  <ul class="list-unstyled">
+                      <!-- <li><a href="{% url 'customer_dashboard' %}" class="text-light text-decoration-none">Dashboard</a></li>
+                      <li><a href="{% url 'customer_view_products' %}" class="text-light text-decoration-none">Shop</a></li>
+                      <li><a href="{% url 'customer_view_cart' %}" class="text-light text-decoration-none">Cart</a></li>
+                      <li><a href="{% url 'customer_profile' %}" class="text-light text-decoration-none">Profile</a></li> -->
+                  </ul>
+              </div>
+
+              <!-- Support / Help -->
+              <div class="col-md-3 mb-4">
+                  <h6 class="fw-bold">Support</h6>
+                  <ul class="list-unstyled">
+                      <li><a href="#" class="text-light text-decoration-none">Contact Us</a></li>
+                      <li><a href="#" class="text-light text-decoration-none">FAQs</a></li>
+                      <li><a href="#" class="text-light text-decoration-none">Shipping & Returns</a></li>
+                  </ul>
+              </div>
+
+              <!-- Social Media -->
+              <div class="col-md-3 mb-4">
+                  <h6 class="fw-bold">Follow Us</h6>
+                  <div class="d-flex gap-3">
+                      <a href="#" class="text-light fs-5"><i class="bi bi-facebook"></i></a>
+                      <a href="#" class="text-light fs-5"><i class="bi bi-twitter"></i></a>
+                      <a href="#" class="text-light fs-5"><i class="bi bi-instagram"></i></a>
+                      <a href="#" class="text-light fs-5"><i class="bi bi-linkedin"></i></a>
+                  </div>
+              </div>
+
+          </div>
+
+          <hr class="border-light">
+
+          <div class="text-center small text-muted">
+              &copy; {{ now|date:"Y" }} MyShop. All rights reserved.
+          </div>
+
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'seller/seller_add_products.html' %}
+{% block content %}
+
+<div class="container">
+    <h3 class="mb-4 fw-bold text-center">🛒 Products</h3>
+    <div class="table-responsive shadow rounded">
+        <table class="table align-middle table-hover">
+            <thead class="table table-dark">
+                <tr class="text-center">
+                    <th>Product Image</th>
+                    <th>Product Name</th>
+                    <th>Product Description</th>
+                    <th>SKU</th>
+                    <th>Batch</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in products %}
+                <tr class="text-center">
+                    <td><img src="/static/media/{{i.image}}" style="width: 80px; height: 80px; object-fit: cover;" alt="{{ i.product_name }}"></td>
+                    <td class="fw-semibold">{{i.product_name}}</td>
+                    <td class="text-truncate" style="max-width: 200px;">{{i.description}}</td>
+                    <td>{{i.sku}}</td>
+                    <td>{{i.batch}}</td>
+                    <td>{{i.quantity}}</td>
+                    <td class="text-success fw-bold">₹{{i.price}}</td>
+                    <td>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="{% url 'seller_edit_product' %}?id={{ i.id }}" class="btn btn-info btn-sm rounded-pill w-100">Edit</a>
+                            <a href="{% url 'seller_delete_products' %}?id={{ i.id }}" class="btn btn-danger btn-sm rounded-pill w-100">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

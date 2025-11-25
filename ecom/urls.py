@@ -1,0 +1,37 @@
+from django.contrib import admin
+from django.urls import path
+from myapp import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',views.index, name='index'),
+    path('login/',views.login, name='login'),
+    path('signIn/',views.customer, name='customer'),
+    path('login/admin_dashboard/',views.admin_dashboard, name='admin_dashboard'),
+    path('login/admin_dashboard/customer',views.adm_customer, name='adm_customer'),
+    path('login/admin_dashboard/seller',views.adm_seller, name='adm_seller'),
+    path('login/admin_dashboard/seller_reg_approve',views.adm_seller_reg_approve, name='adm_seller_reg_approve'),
+    path('login/admin_dashboard/delete_seller',views.adm_delete_seller, name='adm_delete_seller'),
+    path('login/admin_dashboard/seller_products',views.adm_seller_products, name='adm_seller_products'),
+    path('login/admin_dashboard/customer_orders',views.adm_customer_orders, name='adm_customer_orders'),
+    path('login/customer_dashboard/',views.customer_dashboard, name='customer_dashboard'),
+    path('login/customer_dashboard/profile',views.customer_profile, name='customer_profile'),
+    path('login/customer_dashboard/profile/update',views.customer_update_profile, name='customer_update_profile'),
+    path('login/customer_dashboard/view_products',views.customer_view_products, name='customer_view_products'),
+    path('login/customer_dashboard/add_to_cart',views.customer_add_to_cart, name='customer_add_to_cart'),
+    path('login/customer_dashboard/add_to_cart/checkout',views.customer_checkout, name='customer_checkout'),
+    path('login/customer_dashboard/remove_from_cart',views.customer_remove_item_from_cart, name='customer_remove_item_from_cart'),
+    path('login/customer_dashboard/update_cart',views.customer_update_cart, name='customer_update_cart'),
+    path('login/customer_dashboard/cart',views.customer_view_cart, name='customer_view_cart'),
+    path('login/customer_dashboard/cart/history',views.customer_cart_history, name='customer_cart_history'),
+    path('signIn-as-seller/',views.seller, name='seller'),
+    path('login/seller_dashboard/',views.seller_dashboard, name='seller_dashboard'),
+    path('login/seller_dashboard/seller_delete_from_cart',views.seller_delete_from_cart, name='seller_delete_from_cart'),
+    path('login/seller_dashboard/seller_deliver_pro',views.seller_deliver_pro, name='seller_deliver_pro'),
+    path('login/seller_dashboard/profile',views.seller_profile, name='seller_profile'),
+    path('login/seller_dashboard/profile/update',views.seller_profile_update, name='seller_profile_update'),
+    path('login/seller_dashboard/view_products',views.seller_view_products, name='seller_view_products'),
+    path('login/seller_dashboard/add_products',views.seller_add_products, name='seller_add_products'),
+    path('login/seller_dashboard/view_products/edit_product',views.seller_edit_product, name='seller_edit_product'),
+    path('login/seller_dashboard/view_products/delete_product',views.seller_delete_products, name='seller_delete_products'),
+]

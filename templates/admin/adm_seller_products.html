@@ -1,0 +1,68 @@
+{% extends 'admin/admin_dashboard.html' %}
+{% block content %}
+
+<div class="card shadow-sm rounded">
+  <!-- <div class="card-header">
+    <h2>Customers Overview</h2>
+  </div> -->
+  <div class="card-body">
+    <h3 class="mb-4 fw-bold">Seller Products</h3>
+
+    <!-- Search and Filter Section -->
+    <!-- <div class="d-flex justify-content-between mb-4">
+      <div class="d-flex w-50 gap-2">
+        <input type="text" class="form-control rounded-4" placeholder="Search by email or name" id="searchField">
+        <button class="btn btn-primary rounded-4 px-5">Search</button>
+      </div>
+      <div class="dropdown">
+        <button class="btn rounded-4 px-3 btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Filter by Status
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+          <li><a class="dropdown-item" href="#">All</a></li>
+          <li><a class="dropdown-item" href="#">Pending</a></li>
+          <li><a class="dropdown-item" href="#">Completed</a></li>
+          <li><a class="dropdown-item" href="#">Shipped</a></li>
+        </ul>
+      </div>
+    </div> -->
+
+    <!-- Table with customer data -->
+    <div class="table-responsive shadow rounded">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Seller</th>
+            <th>Email</th>
+            <th>Product</th>
+            <th>Price</th>
+            <!-- <th>Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in pro %}
+          <tr>
+            <td>{{i.p_id.first_name}} {{i.p_id.last_name}}</td>
+            <td>{{i.p_id.email}}</td>
+            <td>{{i.product_name}}</td>
+            <td>{{i.price}}</td>
+            <!-- <td>
+              <span class="badge 
+                {% if i.status == 'Pending' %} badge-warning {% elif i.status == 'Completed' %} badge-success {% elif i.status == 'Shipped' %} badge-info {% else %} badge-secondary {% endif %}
+              ">{{ i.status }}</span>
+            </td> -->
+            <!-- <td class="text-center">
+              <a href="{% url 'seller_deliver_pro' %}?id={{i.id}}" class="btn btn-sm rounded-pill px-3 btn-primary">Deliver</a>
+            </td> -->
+            <!-- <td class="text-center">
+              <a href="{% url 'adm_delete_seller' %}?id={{i.id}}" class="btn btn-sm rounded-pill px-3 btn-danger">Delete</a>
+            </td> -->
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

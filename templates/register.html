@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="container d-flex justify-content-center">
+    <div class="border shadow-lg rounded p-4" style="width: 100%; max-width: 650px;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Create Account</h2>
+                <p class="text-muted">Sign up to start shopping with us</p>
+            </div>
+            <div class="mb-3 text-center">
+                <label class="form-label fw-semibold d-block mb-2">Profile Picture</label>
+                <img id="preview" src="/static/media/dummy_pro_pic.jpg" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover; display: block; margin: 0 auto;">
+                <input type="file" id="image" name="image" accept="image/*" class="d-none" onchange="previewImage(event)">
+                <button type="button" class="btn btn-primary rounded-pill mt-2" onclick="document.getElementById('image').click();">
+                    Choose Profile Picture
+                </button>
+            </div>
+            <div class="mb-3">
+                <input type="text" name="fname" class="form-control" placeholder="First Name" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" name="lname" class="form-control" placeholder="Last Name" required>
+            </div>
+            <div class="mb-3">
+                <input type="date" name="dob" class="form-control" placeholder="Date of birth" required>
+            </div>
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary rounded-pill w-100 mt-3 shadow-sm">Create</button>
+        </form>
+        <div class="text-center mt-4">
+            <p class="mb-0">Are you a seller? 
+                <a href="{% url 'seller' %}" class="fw-bold text-decoration-none">Sign up here</a>
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        const output = document.getElementById('preview');
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+{% endblock %}

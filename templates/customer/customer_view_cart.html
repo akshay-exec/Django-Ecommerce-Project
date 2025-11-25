@@ -1,0 +1,71 @@
+{% extends 'customer/customer_dashboard.html' %}
+{% block content %}
+
+<div class="container py-4">
+
+    <h3 class="mb-4 fw-bold text-center">🛒 Your Cart</h3>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table align-middle">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Update</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for i in cart %}
+                <tr class="text-center">
+                    <td>
+                        <img src="/static/media/{{ i.products.image }}" 
+                             class="img-fluid rounded"
+                             style="width: 80px; height: 80px; object-fit: cover;">
+                    </td>
+
+                    <td class="fw-semibold">{{ i.products.product_name }}</td>
+
+                    <td class="text-muted small" style="max-width: 250px;">
+                        {{ i.products.description }}
+                    </td>
+
+                    <td class="fw-bold">{{ i.quantity }}</td>
+
+                    <td class="fw-bold text-success">₹{{ i.price }}</td>
+
+                    <td>
+                        <form action="{% url 'customer_update_cart' %}?id={{i.id}}" method="post" class="d-flex justify-content-center gap-2">
+                            {% csrf_token %}
+                            <input type="number" name="update_qty" class="form-control form-control-sm text-center" style="width: 70px;" value="{{ i.quantity }}">
+                            <button class="btn btn-primary btn-sm rounded-pill px-3">Update</button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <a href="{% url 'customer_remove_item_from_cart' %}?id={{i.id}}" class="btn btn-danger btn-sm rounded-pill px-3 w-100">
+                            Remove
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Checkout Section -->
+    {% if cart %}
+    <div class="mt-4">
+        <a href="{% url 'customer_checkout' %}" class="btn btn-primary btn-sm rounded-pill px-5 shadow">Checkout</a>
+    </div>
+    {% endif %}
+
+</div>
+
+
+{% endblock %}

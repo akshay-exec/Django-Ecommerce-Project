@@ -1,0 +1,33 @@
+{% extends 'customer/customer_dashboard.html' %}
+{% block content %}
+
+<div class="container">
+    <table class="table border">
+        <thead class="table-dark">
+            <tr>
+                <th>Product Image</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+                <th>Payment Status</th>
+                <th>Order Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for i in cart %}
+            <tr>
+                <td><img src="/static/media/{{i.products.image}}" style="width: 100px; height: 100px;object-fit: cover;" alt=""></td>
+                <td>{{i.products.product_name}}</td>
+                <td>{{i.products.quantity}}</td>
+                <td>{{i.products.price}}</td>
+                <td>{{i.price}}</td>
+                <td>{{i.status}}</td>
+                <td>{{i.Normal_status}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

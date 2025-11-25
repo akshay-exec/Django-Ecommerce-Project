@@ -1,0 +1,35 @@
+{% extends 'admin/admin_dashboard.html' %}
+{% block content %}
+
+<div class="card shadow-sm rounded">
+  <!-- <div class="card-header">
+    <h2>Customers Overview</h2>
+  </div> -->
+  <div class="card-body">
+    <h3 class="mb-4 fw-bold">Users</h3>
+
+    <!-- Table with customer data -->
+    <div class="table-responsive shadow rounded">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Date joined</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for i in cus %}
+            <tr>
+                <td>{{i.first_name}} {{i.last_name}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.date_joined}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'seller/seller_dashboard.html' %}
+{% block content %}
+
+<div class="container d-flex justify-content-center">
+    <div class="border rounded p-4" style="width: 80%;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                <h1>Edit Product.</h1>
+            </div>
+            <div class="mb-3 d-flex gap-2">
+                <div class="w-50">
+                    <input type="text" value="{{i.product_name}}" name="pname" class="form-control" placeholder="Product Name" >
+                </div>
+                <div class="w-25">
+                    <input type="text" value="{{i.sku}}" name="sku" class="form-control" placeholder="SKU" >
+                </div>
+                <div class="w-50">
+                    <input type="file" value="" name="image" class="form-control" >
+                </div>
+            </div>
+            <div class="mb-3 d-flex gap-2">
+                <div class="w-75">
+                    <input type="text" value="{{i.description}}" name="desc" class="form-control" placeholder="Product Description" >
+                </div>
+                <div class="w-25">
+                    <input type="text" value="{{i.batch}}" name="batch" class="form-control" placeholder="Batch Number" >
+                </div>
+            </div>
+            <div class="mb-3 d-flex gap-2">
+                <div class="w-25">
+                    <input type="number" value="{{i.quantity}}" name="qty" class="form-control" placeholder="Quantity" >
+                </div>
+                <div class="w-25">
+                    <input type="number" value="{{i.price}}" name="price" class="form-control" placeholder="Price" >
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary rounded-pill w-25">Submit</button>
+                <a href="{% url 'seller_view_products' %}" type="submit" class="btn btn-success rounded-pill px-5">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

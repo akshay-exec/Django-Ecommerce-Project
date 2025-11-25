@@ -1,0 +1,102 @@
+{% extends 'customer/customer_dashboard.html' %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg rounded-4 p-4">
+
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">Checkout</h2>
+                    <p class="text-muted">Fill in your details to complete your order</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Billing Details -->
+                    <h5 class="fw-bold mb-3">Billing Details</h5>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <input type="text" value="{{cus.first_name}}" name="first_name" class="form-control" placeholder="First Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" value="{{cus.last_name}}" name="last_name" class="form-control" placeholder="Last Name" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" value="{{cus.email}}" name="email" class="form-control" placeholder="Email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="tel" value="+91 4578 6547 25" name="phone" class="form-control" placeholder="Phone Number" required>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <h5 class="fw-bold mb-3 mt-4">Shipping Address</h5>
+
+                    <div class="mb-3">
+                        <input type="text" value="" name="address1" class="form-control" placeholder="Street Address" >
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="address2" class="form-control" placeholder="Apartment, Suite, etc. (Optional)">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <input type="text" name="city" class="form-control" placeholder="City" >
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="state" class="form-control" placeholder="State / Province" >
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="zip" class="form-control" placeholder="ZIP / Postal Code" >
+                    </div>
+
+                    <!-- Payment Method -->
+                    <h5 class="fw-bold mb-3 mt-4">Payment Method</h5>
+                    <div class="mb-3">
+                        <select name="payment_method" class="form-select" required>
+                            <option value="">Select Payment Method</option>
+                            <option value="cod">Cash on Delivery</option>
+                            <option value="card">Credit / Debit Card</option>
+                            <option value="upi">UPI / Wallet</option>
+                        </select>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <h5 class="fw-bold mb-3 mt-4">Order Summary</h5>
+                    <div class="border rounded p-3 mb-3">
+                        <ul class="list-unstyled mb-0">
+                            {% for i in cart %}
+                            <li class="d-flex justify-content-between mb-2">
+                                <span>{{ i.products.product_name }} - {{ i.quantity }}</span>
+                                <span>₹{{ i.price }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>Total:</span>
+                            <span>₹{{ total }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Place Order Button -->
+                    <button type="submit" class="btn btn-success btn-lg rounded-pill w-100 mt-3 shadow-sm">
+                        Place Order
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'seller/seller_dashboard.html' %}
+{% block content %}
+
+<div class="container d-flex justify-content-center py-5">
+  <div class="border rounded p-4 shadow-sm" style="width: 80%; max-width: 900px;">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-4">
+        <h1 class="text-primary">Add Product</h1>
+      </div>
+
+      <!-- Product Name, SKU, and Image -->
+      <div class="mb-3 d-flex gap-3">
+        <div class="w-50">
+          <input type="text" name="pname" class="form-control shadow-sm" placeholder="Product Name" required>
+        </div>
+        <div class="w-25">
+          <input type="text" name="sku" class="form-control shadow-sm" placeholder="SKU" required>
+        </div>
+        <div class="w-50">
+          <input type="file" name="image" class="form-control shadow-sm" required>
+        </div>
+      </div>
+
+      <!-- Description and Batch Number -->
+      <div class="mb-3 d-flex gap-3">
+        <div class="w-75">
+          <input type="text" name="desc" class="form-control shadow-sm" placeholder="Product Description" required>
+        </div>
+        <div class="w-25">
+          <input type="text" name="batch" class="form-control shadow-sm" placeholder="Batch Number" required>
+        </div>
+      </div>
+
+      <!-- Quantity and Price -->
+      <div class="mb-3 d-flex gap-3">
+        <div class="w-25">
+          <input type="number" name="qty" class="form-control shadow-sm" placeholder="Quantity" required>
+        </div>
+        <div class="w-25">
+          <input type="number" name="price" class="form-control shadow-sm" placeholder="Price" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary rounded-pill w-25 shadow-sm">Add Product</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
