@@ -102,6 +102,6 @@ http://127.0.0.1:8000/
 
 ---
 
-## 📄 License
+## 📄 Usage
 This project is for learning and educational purposes.
 
