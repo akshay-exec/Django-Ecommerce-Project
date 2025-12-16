@@ -32,23 +32,41 @@
       <table class="table table-bordered table-hover align-middle">
         <thead class="table-dark">
           <tr>
-            <th>Customer Name</th>
-            <th>Customer Email</th>
             <th>Ordered Product</th>
+            <th>Customer Details</th>
             <th>Quantity</th>
+            <th>Total Price</th>
             <th>Payment Status</th>
             <th>Delivery Status</th>
+            <th>Del Available User Status</th>
         </tr>
         </thead>
         <tbody>
             {% for i in cart %}
             <tr>
-                <td>{{i.customer.first_name}} {{i.customer.last_name}}</td>
-                <td>{{i.customer.email}}</td>
-                <td>{{i.products.product_name}}</td>
+              <td><img src="/static/media/{{i.products.image}}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 15px;" alt="{{i.products.product_name}}">{{i.products.product_name}}</td>
+                <td>{{i.customer.first_name}} {{i.customer.last_name}} - {{i.customer.email}}</td>
                 <td>{{i.quantity}}</td>
+                <td>₹ {{i.price}}</td>
                 <td>{{i.status}}</td>
+                {% if i.Normal_status == 'Shipped' %}
+                <td>Shipped by,<br> {{i.products.p_id.first_name}} {{i.products.p_id.last_name}}</td>
+                {% else %}
                 <td>{{i.Normal_status}}</td>
+                {% endif %}
+                {% if i.Normal_status == 'Delivered' %}
+                <td></td>
+                {% else %}
+                <td>
+                  <select class="form-control" style="width: 250px;" name="" id="">
+                    <option value="">Select User</option>
+                    {% for del in del %}
+                    <option value="">{{del.first_name}}</option>
+                    {% endfor %}
+                  </select>
+                  <a href="{% url 'adm_delivery_user' %}?=id = {{i.id}}" class="btn btn-primary btn-sm rounded-pill mt-2 px-4" >Assign</a>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

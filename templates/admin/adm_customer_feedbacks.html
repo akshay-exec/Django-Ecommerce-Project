@@ -1,0 +1,58 @@
+{% extends 'admin/admin_dashboard.html' %}
+{% block content %}
+
+<div class="card shadow-sm rounded">
+  <!-- <div class="card-header">
+    <h2>Customers Overview</h2>
+  </div> -->
+  <div class="card-body">
+    <h3 class="mb-4 fw-bold">Customer Feedbacks</h3>
+
+    <!-- Search and Filter Section -->
+    <!-- <div class="d-flex justify-content-between mb-4">
+      <div class="d-flex w-50 gap-2">
+        <input type="text" class="form-control rounded-4" placeholder="Search by email or name" id="searchField">
+        <button class="btn btn-primary rounded-4 px-5">Search</button>
+      </div> -->
+      <form class="dropdown">
+        <button class="btn rounded-4 px-3 btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Filter by Rating
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+          <li><button class="dropdown-item" name="status" value="">All</button></li>
+          <li><button class="dropdown-item" name="status" value="1">1</button></li>
+          <li><button class="dropdown-item" name="status" value="2">2</button></li>
+          <li><button class="dropdown-item" name="status" value="3">3</button></li>
+          <li><button class="dropdown-item" name="status" value="4">4</button></li>
+          <li><button class="dropdown-item" name="status" value="5">5</button></li>
+        </ul>
+    </form>
+    </div> 
+
+    <!-- Table with customer data -->
+    <div class="table-responsive shadow rounded">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th class="w-25">Customer Name</th>
+            <th class="w-25">Product</th>
+            <th class="w-25">Feedback</th>
+            <th class="w-25">Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in i %}
+          <tr>
+            <td><img src="/static/media/{{i.cart.customer.image}}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 15px;" class="rounded-2" alt="{{i.cart.customer.first_name}} {{i.cart.customer.last_name}}">{{i.cart.customer.first_name}} {{i.cart.customer.last_name}}</td>
+            <td><img src="/static/media/{{i.cart.products.image}}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 15px;" class="rounded-2" alt="{{i.cart.products.product_name}}">{{i.cart.products.product_name}}</td>
+            <td>{{i.feedback}}</td>
+            <td>{{i.rating}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+ </div>
+</div>
+
+{% endblock %}

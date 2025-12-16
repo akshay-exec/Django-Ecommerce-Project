@@ -39,3 +39,19 @@ class Cart(models.Model):
     price = models.CharField(max_length=255, null=True)
     status = models.CharField(max_length=255, null=True)
     Normal_status = models.CharField(max_length=255, null=True)
+
+class Feedback(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
+    feedback = models.CharField(max_length=255, null=True)
+    rating = models.CharField(max_length=255, null=True)
+
+class Delivery(models.Model):
+    first_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    date_of_birth = models.CharField(max_length=255, null=True)
+    card_number = models.CharField(max_length=255, null=True)
+    card_image = models.ImageField(null=True)
+    email = models.CharField(max_length=255, null=True)
+    image = models.ImageField(null=True)
+    status = models.CharField(max_length=255, null=True)
+    del_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True)

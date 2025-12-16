@@ -12,7 +12,7 @@
       <div class="container">
 
         <!-- Logo / Brand -->
-        <a class="navbar-brand fw-bold fs-4" href="{% url 'seller_dashboard' %}">🛒 SellerPortal</a>
+        <a class="navbar-brand fw-bold fs-4" href="{% url 'delivery_dashboard' %}">🛒 Delivery Portal</a>
 
         <!-- Hamburger Menu for Mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSellerContent"
@@ -26,9 +26,9 @@
           <!-- Left-aligned Links -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'seller_dashboard' %}">Home</a>
+              <a class="nav-link" href="{% url 'delivery_dashboard' %}">Home</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="{% url 'seller_profile' %}">Profile</a>
             </li>
             <li class="nav-item">
@@ -36,7 +36,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'seller_add_products' %}">Add Products</a>
-            </li>
+            </li> -->
           </ul>
 
           <!-- Right-aligned Logout -->
@@ -58,15 +58,15 @@
             <div class="sidebar shadow-sm rounded">
               <h3>Welcome, {{ sel.first_name }}!</h3>
               <ul class="nav flex-column">
-                <li class="nav-item"><a href="{% url 'seller_dashboard' %}" class="nav-link">Dashboard</a></li>
-                <li class="nav-item"><a href="{% url 'seller_cus_feedback' %}" class="nav-link active">Customers feedbacks</a></li>
+                <li class="nav-item"><a href="{% url 'delivery_dashboard' %}" class="nav-link">Dashboard</a></li>
+                <!-- <li class="nav-item"><a href="{% url 'seller_cus_feedback' %}" class="nav-link active">Customers feedbacks</a></li> -->
                 <!-- Add more navigation options as needed -->
               </ul>
             </div>
-            <div class="mt-4">
+            <!-- <div class="mt-4">
               <h4>Total Profit:</h4>
               <h3>₹ {{total}}</h3>
-            </div>
+            </div> -->
           </div>
 
           <!-- Main Content -->
@@ -76,7 +76,7 @@
                 <h2>Customers Overview</h2>
               </div> -->
               <div class="card-body">
-                <h3 class="mb-4 fw-bold">Customer Order Details</h3>
+                <h3 class="mb-4 fw-bold">Despatch Order Details</h3>
 
                 <!-- Search and Filter Section -->
                 <form class="d-flex justify-content-between mb-4" method="post">
@@ -125,7 +125,7 @@
                         <td>{{ i.Normal_status }}</td>
                         {% if i.Normal_status == 'Order' %}
                         <td class="text-center">
-                          <a href="{% url 'seller_deliver_pro' %}?id={{i.id}}" class="btn btn-sm rounded-pill px-3 btn-primary">Despatch</a>
+                          <a href="{% url 'seller_deliver_pro' %}?id={{i.id}}" class="btn btn-sm rounded-pill px-3 btn-primary">Ship</a>
                         </td>
                         {% else %}
                         <td></td>

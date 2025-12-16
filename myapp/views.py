@@ -39,6 +39,15 @@ def login(request):
                         return redirect('seller_dashboard')
                     else:
                         return redirect('login')
+
+                elif user.user_type == 'Delivery':
+                    delivery = Delivery.objects.filter(del_id=user).first()
+                    if delivery:
+                        request.session['uid'] = delivery.id
+                        messages.success(request,'Delivery User login success')
+                        return redirect('delivery_dashboard')
+                    else:
+                        return redirect('login')
                 else:
                     messages.error(request, 'User not found')
                     return redirect('login')
@@ -59,7 +68,7 @@ def adm_customer(request):
     return render(request,'admin/adm_customer.html',{'cus':cus})
 
 def adm_seller(request):
-    sel = Login.objects.filter(user_type="Seller")
+    sel = Login.objects.filter(user_type="Seller").order_by('-id')
     return render(request,'admin/adm_seller.html',{'sel':sel})
     
 def adm_seller_reg_approve(request):
@@ -79,8 +88,38 @@ def adm_seller_products(request):
     return render(request,'admin/adm_seller_products.html',{'pro':pro})
 
 def adm_customer_orders(request):
-    cart = Cart.objects.all()
-    return render(request,'admin/adm_customer_orders.html',{'cart':cart})
+    cart = Cart.objects.filter(status='Paid').order_by('-id')
+    dell = Delivery.objects.filter(status='Available')
+    return render(request,'admin/adm_customer_orders.html',{'cart':cart,'del':dell})
+
+def adm_delivery_user(request):
+    
+    return redirect('adm_customer_orders')
+
+def adm_customer_feedbacks(request):
+    fdbk = Feedback.objects.all().order_by('-id')
+    status = request.GET.get('status','')
+    if status:
+        fdbk = fdbk.filter(rating=status)
+    return render(request,'admin/adm_customer_feedbacks.html',{'i':fdbk})
+
+def adm_delivery_portal(request):
+    dell = Login.objects.filter(user_type="Delivery").order_by('-id')
+    return render(request,'admin/adm_delivery_portal.html',{'del':dell})
+
+def adm_approve_delivery(request):
+    uid = request.GET.get('id')
+    deli = Login.objects.get(id=uid)
+    deli.is_active = True
+    deli.save()
+    return redirect('adm_delivery_portal')
+
+def adm_remove_delivery(request):
+    uid = request.GET.get('id')
+    Delivery.objects.get(id=uid).delete()
+    return redirect('adm_delivery_portal')
+
+############################################_CUSTOMER_############################################
 
 def customer(request):
     if request.method == 'POST':
@@ -221,6 +260,26 @@ def customer_cart_history(request):
     cart = Cart.objects.filter(customer=cid,status='Paid')
     return render(request,'customer/customer_cart_history.html',{'cart':cart})
 
+def customer_feedback(request):
+    uid = request.GET.get('id')
+    cart_id = Cart.objects.get(id=uid)
+    if request.method == 'POST':
+        c_rating = request.POST.get('rating')
+        c_feedback = request.POST.get('feedback')
+
+        Feedback.objects.create(
+            rating = c_rating,
+            feedback = c_feedback,
+            cart = cart_id
+        )
+
+        messages.success(request,"Feedback submited successfully!")
+        return redirect('customer_cart_history')
+
+    return render(request,'customer/customer_feedback.html')
+
+############################################_SELLER_############################################
+
 def seller(request):
     if request.method == 'POST':
         fname = request.POST.get('fname')
@@ -262,14 +321,20 @@ def seller(request):
 def seller_dashboard(request):
     uid = request.session.get('uid')
     sel = Seller.objects.get(id=uid)
-    cus = Cart.objects.filter(status='Paid')
+    cus = Cart.objects.filter(status='Paid',products__p_id=sel).order_by('-id')
     total = sum(float(i.price) for i in cus if i.status == 'Paid')
     return render(request,'seller/seller_dashboard.html',{'sel':sel,'cus':cus,'total':total})
+
+def seller_cus_feedback(request):
+    uid = request.session.get('uid')
+    sel = Seller.objects.get(id=uid)
+    feedback = Feedback.objects.filter(cart__products__p_id = sel).order_by('-id')
+    return render(request,'seller/seller_cus_feedback.html',{'i':feedback,'sel':sel})
 
 def seller_deliver_pro(request):
     uid = request.GET.get('id')
     cart = Cart.objects.get(id=uid)
-    cart.Normal_status = 'Delivered'
+    cart.Normal_status = 'Shipped'
     cart.save()
     return redirect('seller_dashboard')
 
@@ -356,3 +421,49 @@ def seller_delete_products(request):
     uid = request.GET.get('id')
     Products.objects.get(id=uid).delete()
     return redirect('seller_view_products')
+
+############################################_DLIVERY_############################################
+
+def delivery_reg(request):
+    if request.method == 'POST':
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        dob = request.POST.get('dob')
+        idnum = request.POST.get('idnum')
+        d_image = request.FILES.get('image')
+        d_card_image = request.FILES.get('idfile')
+        d_email = request.POST.get('email')
+        d_password = request.POST.get('password')
+
+        log = Login.objects.create_user(
+            first_name = fname,
+            last_name = lname,
+            email = d_email,
+            username = d_email,
+            password = d_password,
+            user_psd = d_password,
+            user_type = 'Delivery'
+        )
+
+        log.is_active = False
+        log.save()
+
+        Delivery.objects.create(
+            first_name = fname,
+            last_name = lname,
+            date_of_birth = dob,
+            card_number = idnum,
+            card_image = d_card_image,
+            email = d_email,
+            image = d_image,
+            status = 'Available',
+            del_id = log
+        )
+
+        messages.success(request,'Delivery registration successfull !')
+        return redirect('login')
+
+    return render(request,'delivery_reg.html')
+
+def delivery_dashboard(request):
+    return render(request,'delivery/delivery_dashboard.html')
